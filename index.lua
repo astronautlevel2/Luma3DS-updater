@@ -25,7 +25,7 @@ local pad = Controls.read()
 local oldpad = pad
 
 --CIA/3DSX
-local iscia = 0
+local iscia = 1
 local isofficial = 0
 
 if isofficial == 0 then
