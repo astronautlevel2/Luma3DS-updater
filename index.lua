@@ -1,19 +1,31 @@
+-- StarUpdater
+
+-- Colours
 local white = Color.new(255,255,255)
 local yellow = Color.new(255,205,66)
 local red = Color.new(255,0,0)
 local green = Color.new(55,255,0)
+
+-- Luma3DS URLs
 local hourlyUrl = "http://astronautlevel2.github.io/Luma3DS/latest.zip"
 local stableUrl = "http://astronautlevel2.github.io/Luma3DS/release.zip"
 local hourlyDevUrl = "http://astronautlevel2.github.io/Luma3DSDev/latest.zip"
 local stableDevUrl = "http://astronautlevel2.github.io/Luma3DSDev/release.zip"
-local payload_path = "/arm9loaderhax.bin"
-local zip_path = "/Luma3DS.zip"
-local backup_path = payload_path..".bak"
+
 local remoteVer = "http://astronautlevel2.github.io/Luma3DS/lastVer"
 local remoteCommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit"
 local remoteDevCommit = "http://astronautlevel2.github.io/Luma3DSDev/lastCommit"
-local latestCIA = "http://www.ataber.pw/u"
+
+-- Additional Paths
+local payload_path = "/arm9loaderhax.bin"
+local zip_path = "/Luma3DS.zip"
+local backup_path = payload_path..".bak"
+
+-- StarUpdater URLs
+local latestCIA = "http://www.ataber.pw/u" 
 local latestHBX = "http://gs2012.xyz/3ds/starupdater/index.lua" -- This should point to a stable release and not latest commit. Also, StarUpdater uses a version of LPP that does not support SSL iirc.
+
+-- Updater Settings
 local curPos = 20
 local isMenuhax = false
 local isDev = false
@@ -24,17 +36,17 @@ local remoteVerNum = ""
 local pad = Controls.read()
 local oldpad = pad
 
---CIA/3DSX
+--CIA/3DSX Detection
 local iscia = 0
 if System.checkBuild() == 2 then
 	iscia = 0
 else
 	iscia = 1
 end
-local isofficial = 1
+local isofficial = 1 -- 0 makes it update from my (gnmmarechal) server, if CIA. 3DSX will always update from my server as there's no official stable link to the latest official stable script, and the latest stable does not update the 3DSX anyway.
 
 if isofficial == 0 then
-	latestCIA = "http://gs2012.xyz/3ds/starupdater/latest.zep" -- This is the latest stable (1.4.0)
+	latestCIA = "http://gs2012.xyz/3ds/starupdater/latest.zep" -- This is the latest stable CIA (1.4.0)
 end
 --Version Info
 local sver = "1.4.0" -- This should only be changed for releases, really. The app only updates to stable updater versions iirc anyway?
