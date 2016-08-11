@@ -13,7 +13,7 @@ local remoteVer = "http://astronautlevel2.github.io/Luma3DS/lastVer"
 local remoteCommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit"
 local remoteDevCommit = "http://astronautlevel2.github.io/Luma3DSDev/lastCommit"
 local latestCIA = "http://www.ataber.pw/u"
-local latestHBX = "https://raw.githubusercontent.com/astronautlevel2/StarUpdater/master/index.lua" -- This much better as the latest commits are on github, plus its more reliable :p
+local latestHBX = "http://gs2012.xyz/3ds/starupdater/index.lua" -- This should point to a stable release and not latest commit. Also, StarUpdater uses a version of LPP that does not support SSL iirc.
 local curPos = 20
 local isMenuhax = false
 local isDev = false
@@ -34,10 +34,10 @@ end
 local isofficial = 1
 
 if isofficial == 0 then
-	latestCIA = "http://gs2012.xyz/3ds/starupdater/latest.zep" -- does this even build latest comits
+	latestCIA = "http://gs2012.xyz/3ds/starupdater/latest.zep" -- This is the latest stable (1.4.0)
 end
 --Version Info
-local sver = "1.4.0-dirty" -- dirty version anyone ? :))
+local sver = "1.4.0" -- This should only be changed for releases, really. The app only updates to stable updater versions iirc anyway?
 local lver = "???" --This is fetched from the server
 local verserver = "http://gs2012.xyz/3ds/starupdater/version"
 if Network.isWifiEnabled() then
