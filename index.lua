@@ -25,11 +25,13 @@ local backup_path = payload_path..".bak"
 local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
 local latestHBX = "http://www.ataber.pw/uhbl" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/index.lua
 local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
+local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
 
 -- Version Info
-local sver = "1.4.0"
+local sver = "1.4.1"
 local lver = "???" --This is fetched from the server
-
+local relver = 1 -- This is a number that is checked against the server version for mandatory updates. if svrelver > relver, StarUpdater will auto-update.
+local svrelver = 0 -- Fetched from server
 
 
 local curPos = 20
@@ -53,7 +55,17 @@ end
 
 if Network.isWifiEnabled() then
 	lver = Network.requestString(verserver)
+	svrelver = tonumber(Network.requestString(relverserver))
 end
+
+--Auto-update check
+if svrelver > relver then
+	autoupdate = 1
+else
+	autoupdate = 0
+end
+--End of Auto-Update check
+
 function readConfig(fileName)
     if (isMenuhax) then
         payload_path = "/Luma3DS.dat"
@@ -284,67 +296,89 @@ end
 init()
 main()
 while true do
-        pad = Controls.read()
-        
-        if Controls.check(pad,KEY_START) and not Controls.check(oldpad,KEY_START) then
-        	System.exit()
-        end	
-            
-        if Controls.check(pad,KEY_DDOWN) and not Controls.check(oldpad,KEY_DDOWN) then
-            if (curPos < 110) then
-                curPos = curPos + 15
-                main()
-            end
-        elseif Controls.check(pad,KEY_DUP) and not Controls.check(oldpad,KEY_DUP) then
-            if (curPos > 20) then
-                curPos = curPos - 15
-                main()
-            end
-        elseif Controls.check(pad,KEY_A) and not Controls.check(oldpad,KEY_A) then
-            if (curPos == 20) then
-                if (not isDev) then
-                    update(stableUrl)
-                else
-                    update(stableDevUrl)
-                end
-            elseif (curPos == 35) then
-                if (not isDev) then
-                    update(hourlyUrl)
-                else
-                    update(hourlyDevUrl)
-                end
-            elseif (curPos == 50) then
-                restoreBackup()
-            elseif (curPos == 65) then
-                isDev = not isDev
-                main()
-            elseif (curPos == 80) then
-                isMenuhax = not isMenuhax
-                init()
-                main()
-            elseif (curPos == 95) then
-                System.exit()
-            elseif (curPos == 110) then
-            	if iscia == 1 then
-                	Screen.clear(TOP_SCREEN)
-        		Screen.debugPrint(5, 5, "Downloading new CIA...", yellow, TOP_SCREEN)
-       			Network.downloadFile(latestCIA, "/Updater.CIA")
-                	sleep(2000)
-                	Screen.debugPrint(5, 20, "Installing CIA...", yellow, TOP_SCREEN)
-                	System.installCIA("/Updater.CIA", SDMC)
-                	System.deleteFile("/Updater.CIA")
-                	System.exit()
-                else
-                	Screen.clear(TOP_SCREEN)
-                	Screen.debugPrint(5, 5, "Downloading new script...", yellow, TOP_SCREEN)
-					System.deleteFile("/3ds/StarUpdater/index.lua")
-                	Network.downloadFile(latestHBX, "/3ds/StarUpdater/index.lua")
-                	System.exit()
-            	end	
+	if autoupdate == 0 then
+			pad = Controls.read()
+			
+			if Controls.check(pad,KEY_START) and not Controls.check(oldpad,KEY_START) then
+				System.exit()
+			end	
+				
+			if Controls.check(pad,KEY_DDOWN) and not Controls.check(oldpad,KEY_DDOWN) then
+				if (curPos < 110) then
+					curPos = curPos + 15
+					main()
+				end
+			elseif Controls.check(pad,KEY_DUP) and not Controls.check(oldpad,KEY_DUP) then
+				if (curPos > 20) then
+					curPos = curPos - 15
+					main()
+				end
+			elseif Controls.check(pad,KEY_A) and not Controls.check(oldpad,KEY_A) then
+				if (curPos == 20) then
+					if (not isDev) then
+						update(stableUrl)
+					else
+						update(stableDevUrl)
+					end
+				elseif (curPos == 35) then
+					if (not isDev) then
+						update(hourlyUrl)
+					else
+						update(hourlyDevUrl)
+					end
+				elseif (curPos == 50) then
+					restoreBackup()
+				elseif (curPos == 65) then
+					isDev = not isDev
+					main()
+				elseif (curPos == 80) then
+					isMenuhax = not isMenuhax
+					init()
+					main()
+				elseif (curPos == 95) then
+					System.exit()
+				elseif (curPos == 110) then
+					if iscia == 1 then
+						Screen.clear(TOP_SCREEN)
+					Screen.debugPrint(5, 5, "Downloading new CIA...", yellow, TOP_SCREEN)
+					Network.downloadFile(latestCIA, "/Updater.CIA")
+						sleep(2000)
+						Screen.debugPrint(5, 20, "Installing CIA...", yellow, TOP_SCREEN)
+						System.installCIA("/Updater.CIA", SDMC)
+						System.deleteFile("/Updater.CIA")
+						System.exit()
+					else
+						Screen.clear(TOP_SCREEN)
+						Screen.debugPrint(5, 5, "Downloading new script...", yellow, TOP_SCREEN)
+						System.deleteFile("/3ds/StarUpdater/index.lua")
+						Network.downloadFile(latestHBX, "/3ds/StarUpdater/index.lua")
+						System.exit()
+					end	
+	
+				end
+			end
+			oldpad = pad
+	else
+		if iscia == 1 then
+			Screen.clear(TOP_SCREEN)
+			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)
+			Network.downloadFile(latestCIA, "/Updater.CIA")
+			sleep(2000)
+			Screen.debugPrint(5, 35, "Installing update...", yellow, TOP_SCREEN)
+			Screen.installCIA("/Updater.CIA", SDMC)
+			System.deleteFile("/Updater.CIA")
+			System.exit()
+		else -- Mandatory update will have to download the whole package, but that'll be done later in a later commit.
+			Screen.clear(TOP_SCREEN)
+			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)						
+			System.deleteFile("/3ds/StarUpdater/index.lua")
+			Network.downloadFile(latestHBX, "/3ds/StarUpdater/index.lua")
+			System.exit()
+		end	
 
-            end
-        end
-        oldpad = pad
-    end
+	end
+end
 
 
