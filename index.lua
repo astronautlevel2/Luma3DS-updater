@@ -29,7 +29,7 @@ local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz
 local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
 
 -- Version Info
-local sver = "1.4.1"
+local sver = "1.5.0"
 local lver = "???" --This is fetched from the server
 local relver = 1 -- This is a number that is checked against the server version for mandatory updates. if svrelver > relver, StarUpdater will auto-update.
 local svrelver = 0 -- Fetched from server
