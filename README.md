@@ -1,4 +1,4 @@
-# Luma Updater - Lua
+# StarUpdater for Luma3DS
 
 This is a simple updater for Luma3DS. It uses LPP-3DS in order to work, and it is available as both a 3DSX and a CIA.
 
