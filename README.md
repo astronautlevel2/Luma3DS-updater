@@ -1,3 +1,8 @@
+<p align="center">
+	<img src="https://github.com/astronautlevel2/StarUpdater/blob/master/Builder/banner.png?raw=true"/>
+</p>
+
+
 # StarUpdater for Luma3DS
 
 This is a simple updater for Luma3DS. It uses LPP-3DS in order to work, and it is available as both a 3DSX and a CIA.
