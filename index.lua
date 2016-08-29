@@ -24,6 +24,7 @@ local backup_path = payload_path..".bak"
 -- StarUpdater URLs
 local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
 local latestHBX = "http://www.ataber.pw/uhbl" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/index.lua
+local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
 local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
 local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
 
@@ -349,9 +350,15 @@ while true do
 						System.exit()
 					else
 						Screen.clear(TOP_SCREEN)
-						Screen.debugPrint(5, 5, "Downloading new script...", yellow, TOP_SCREEN)
-						System.deleteFile("/3ds/StarUpdater/index.lua")
-						Network.downloadFile(latestHBX, "/3ds/StarUpdater/index.lua")
+						Screen.debugPrint(5, 5, "Downloading new 3DSX...", yellow, TOP_SCREEN)
+						if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
+							System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
+						end
+						Network.downloadFile(latestHB, "/3ds/StarUpdater/StarUpdater-up.3dsx")
+						if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
+							System.deleteFile("/3ds/StarUpdater/StarUpdater.3dsx")
+							System.renameFile("/3ds/StarUpdater/StarUpdater-up.3dsx", "/3ds/StarUpdater/StarUpdater-up.3dsx")
+						end
 						System.exit()
 					end	
 	
@@ -369,12 +376,18 @@ while true do
 			Screen.installCIA("/Updater.CIA", SDMC)
 			System.deleteFile("/Updater.CIA")
 			System.exit()
-		else -- Mandatory update will have to download the whole package, but that'll be done later in a later commit.
+		else
 			Screen.clear(TOP_SCREEN)
 			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", yellow, TOP_SCREEN)
-			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)						
-			System.deleteFile("/3ds/StarUpdater/index.lua")
-			Network.downloadFile(latestHBX, "/3ds/StarUpdater/index.lua")
+			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)
+			if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
+				System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
+			end
+			Network.downloadFile(latestHB, "/3ds/StarUpdater/StarUpdater-up.3dsx")
+			if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
+				System.deleteFile("/3ds/StarUpdater/StarUpdater.3dsx")
+				System.renameFile("/3ds/StarUpdater/StarUpdater-up.3dsx", "/3ds/StarUpdater/StarUpdater-up.3dsx")
+			end
 			System.exit()
 		end	
 
