@@ -13,12 +13,12 @@ local colors =
 
 local url =
 {
-	hourly = "http://astronautlevel2.github.io/Luma3DS/latest.zip"
-	stable = "http://astronautlevel2.github.io/Luma3DS/release.zip"
-	hourlyDev = "http://astronautlevel2.github.io/Luma3DSDev/latest.zip"
-	stableDev = "http://astronautlevel2.github.io/Luma3DSDev/release.zip"
-	remver = "http://astronautlevel2.github.io/Luma3DS/lastVer"
-	remcommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit"
+	hourly = "http://astronautlevel2.github.io/Luma3DS/latest.zip",
+	stable = "http://astronautlevel2.github.io/Luma3DS/release.zip",
+	hourlyDev = "http://astronautlevel2.github.io/Luma3DSDev/latest.zip",
+	stableDev = "http://astronautlevel2.github.io/Luma3DSDev/release.zip",
+	remver = "http://astronautlevel2.github.io/Luma3DS/lastVer",
+	remcommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit",
 	remdevcommit = "http://astronautlevel2.github.io/Luma3DSDev/lastCommit"
 }
 
