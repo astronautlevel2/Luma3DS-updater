@@ -1,20 +1,26 @@
 -- StarUpdater
 
 -- Colours
-local white = Color.new(255,255,255)
-local yellow = Color.new(255,205,66)
-local red = Color.new(255,0,0)
-local green = Color.new(55,255,0)
+local colors =
+{
+	white = Color.new(255,255,255),
+	yellow = Color.new(255,205,66),
+	red = Color.new(255,0,0),
+	green = Color.new(55,255,0)
+}
 
 -- Luma3DS URLs
-local hourlyUrl = "http://astronautlevel2.github.io/Luma3DS/latest.zip"
-local stableUrl = "http://astronautlevel2.github.io/Luma3DS/release.zip"
-local hourlyDevUrl = "http://astronautlevel2.github.io/Luma3DSDev/latest.zip"
-local stableDevUrl = "http://astronautlevel2.github.io/Luma3DSDev/release.zip"
 
-local remoteVer = "http://astronautlevel2.github.io/Luma3DS/lastVer"
-local remoteCommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit"
-local remoteDevCommit = "http://astronautlevel2.github.io/Luma3DSDev/lastCommit"
+local url =
+{
+	hourly = "http://astronautlevel2.github.io/Luma3DS/latest.zip"
+	stable = "http://astronautlevel2.github.io/Luma3DS/release.zip"
+	hourlyDev = "http://astronautlevel2.github.io/Luma3DSDev/latest.zip"
+	stableDev = "http://astronautlevel2.github.io/Luma3DSDev/release.zip"
+	remver = "http://astronautlevel2.github.io/Luma3DS/lastVer"
+	remcommit = "http://astronautlevel2.github.io/Luma3DS/lastCommit"
+	remdevcommit = "http://astronautlevel2.github.io/Luma3DSDev/lastCommit"
+}
 
 -- Additional Paths
 local payload_path = "/arm9loaderhax.bin"
@@ -23,7 +29,6 @@ local backup_path = payload_path..".bak"
 
 -- StarUpdater URLs
 local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
-local latestHBX = "http://www.ataber.pw/uhbl" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/index.lua
 local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
 local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
 local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
@@ -96,11 +101,11 @@ function restoreBackup()
     Screen.waitVblankStart()
     Screen.flip()
     if System.doesFileExist(backup_path) then
-        Screen.debugPrint(5,5, "Deleting new payload...", yellow, TOP_SCREEN)
+        Screen.debugPrint(5,5, "Deleting new payload...", colors.yellow, TOP_SCREEN)
         System.deleteFile(payload_path)
-        Screen.debugPrint(5,20, "Renaming backup to "..payload_path.."...", yellow, TOP_SCREEN)
+        Screen.debugPrint(5,20, "Renaming backup to "..payload_path.."...", colors.yellow, TOP_SCREEN)
         System.renameFile(backup_path, payload_path)
-        Screen.debugPrint(5,35, "Press START to go back to HBL/Home menu", green, TOP_SCREEN)
+        Screen.debugPrint(5,35, "Press START to go back to HBL/Home menu", colors.green, TOP_SCREEN)
         while true do
             pad = Controls.read()
                 if Controls.check(pad,KEY_START) then
@@ -110,8 +115,8 @@ function restoreBackup()
             end
         end
     else
-        Screen.debugPrint(5,5, "Backup path: "..backup_path, yellow, TOP_SCREEN)
-        Screen.debugPrint(5,20, "Press START to go back to HBL/Home menu", green, TOP_SCREEN)
+        Screen.debugPrint(5,5, "Backup path: "..backup_path, colors.yellow, TOP_SCREEN)
+        Screen.debugPrint(5,20, "Press START to go back to HBL/Home menu", colors.green, TOP_SCREEN)
         while true do
             pad = Controls.read()
             if Controls.check(pad,KEY_START) then
@@ -185,9 +190,9 @@ function getVer(path)
     else
         if Network.isWifiEnabled() then
         	if (not isDev) then
-            	return Network.requestString(remoteVer).."-"..Network.requestString(remoteCommit)
+            	return Network.requestString(url.remver).."-"..Network.requestString(url.remcommit)
             else
-            	return Network.requestString(remoteVer).."-"..Network.requestString(remoteDevCommit)
+            	return Network.requestString(url.remver).."-"..Network.requestString(url.remdevcommit)
             end
         else
             return "No connection!"
@@ -217,10 +222,10 @@ function update(site)
     Screen.waitVblankStart()
     Screen.flip()
     if Network.isWifiEnabled() then
-    	Screen.debugPrint(5,5, "Downloading file...", yellow, TOP_SCREEN)
+    	Screen.debugPrint(5,5, "Downloading file...", colors.yellow, TOP_SCREEN)
         Network.downloadFile(site, zip_path)
-        Screen.debugPrint(5,15, "File downloaded!", green, TOP_SCREEN)
-        Screen.debugPrint(5,35, "Backing up payload", yellow, TOP_SCREEN)
+        Screen.debugPrint(5,15, "File downloaded!", colors.green, TOP_SCREEN)
+        Screen.debugPrint(5,35, "Backing up payload", colors.yellow, TOP_SCREEN)
         if (System.doesFileExist(backup_path)) then
             System.deleteFile(backup_path)
         end
@@ -229,18 +234,18 @@ function update(site)
         end
         if (isMenuhax == false) then
             System.extractFromZIP(zip_path, "out/arm9loaderhax.bin", payload_path)
-            Screen.debugPrint(5,50, "Moving to payload location...", yellow, TOP_SCREEN)
+            Screen.debugPrint(5,50, "Moving to payload location...", colors.yellow, TOP_SCREEN)
             System.deleteFile(zip_path)
-            Screen.debugPrint(5,65, "Changing path for reboot patch", yellow, TOP_SCREEN)
+            Screen.debugPrint(5,65, "Changing path for reboot patch", colors.yellow, TOP_SCREEN)
             path_changer()
         elseif (isMenuhax == true) then
-            Screen.debugPrint(5,50, "Moving to payload location...", yellow, TOP_SCREEN)
+            Screen.debugPrint(5,50, "Moving to payload location...", colors.yellow, TOP_SCREEN)
             System.extractFromZIP(zip_path, "out/Luma3DS.dat", "/Luma3DS.dat")
             System.deleteFile(zip_path)
         end
-        Screen.debugPrint(5,80, "Done!", green, TOP_SCREEN)
-        Screen.debugPrint(5,95, "Press START to go back to HBL/Home menu", green, TOP_SCREEN)
-        Screen.debugPrint(5,110, "Press SELECT to reboot", green, TOP_SCREEN)
+        Screen.debugPrint(5,80, "Done!", colors.green, TOP_SCREEN)
+        Screen.debugPrint(5,95, "Press START to go back to HBL/Home menu", colors.green, TOP_SCREEN)
+        Screen.debugPrint(5,110, "Press SELECT to reboot", colors.green, TOP_SCREEN)
         while true do
             pad = Controls.read()
             if Controls.check(pad,KEY_START) then
@@ -253,8 +258,8 @@ function update(site)
         end
 
     else
-        Screen.debugPrint(5,5, "WiFi is off! Please turn it on and retry!", red, TOP_SCREEN)
-        Screen.debugPrint(5,20, "Press START to go back to HBL/Home menu", red, TOP_SCREEN)
+        Screen.debugPrint(5,5, "WiFi is off! Please turn it on and retry!", colors.red, TOP_SCREEN)
+        Screen.debugPrint(5,20, "Press START to go back to HBL/Home menu", colors.red, TOP_SCREEN)
         while true do
             pad = Controls.read()
             if Controls.check(pad,KEY_START) then
@@ -275,22 +280,22 @@ end
 function main()
     Screen.refresh()
     Screen.clear(TOP_SCREEN)
-    Screen.debugPrint(5,5, "Welcome to the StarUpdater!", yellow, TOP_SCREEN)
-    Screen.debugPrint(0, curPos, "->", white, TOP_SCREEN)
-    Screen.debugPrint(30,20, "Update to latest Luma3DS", white, TOP_SCREEN)
-    Screen.debugPrint(30,35, "Update to Luma3DS hourly", white, TOP_SCREEN)
-    Screen.debugPrint(30,50, "Restore a Luma3DS backup", white, TOP_SCREEN)
-    Screen.debugPrint(30,65, "Luma Version: "..getMode(devmode), white, TOP_SCREEN)
-    Screen.debugPrint(30,80, "Install mode: "..getMode(menuhaxmode), white, TOP_SCREEN)
-    Screen.debugPrint(30,95, "Go back to HBL/Home menu", white, TOP_SCREEN)
-    Screen.debugPrint(30,110, "Update the updater", white, TOP_SCREEN)
-    Screen.debugPrint(5,145, "Your Luma3DS version  : "..localVer, white, TOP_SCREEN)
-    Screen.debugPrint(5,160, "Latest Luma3DS version: "..remoteVerNum, white, TOP_SCREEN)
+    Screen.debugPrint(5,5, "Welcome to the StarUpdater!", colors.yellow, TOP_SCREEN)
+    Screen.debugPrint(0, curPos, "->", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,20, "Update to latest Luma3DS", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,35, "Update to Luma3DS hourly", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,50, "Restore a Luma3DS backup", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,65, "Luma Version: "..getMode(devmode), colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,80, "Install mode: "..getMode(menuhaxmode), colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,95, "Go back to HBL/Home menu", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,110, "Update the updater", colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,145, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,160, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
     if (not isMenuhax) then
-        Screen.debugPrint(5, 175, "Install directory: "..payload_path, white, TOP_SCREEN)
+        Screen.debugPrint(5, 175, "Install directory: "..payload_path, colors.white, TOP_SCREEN)
     end
-    Screen.debugPrint(5, 195, "Installed Updater: v."..sver, white, TOP_SCREEN)
-    Screen.debugPrint(5, 210, "Latest Updater   : v."..lver, white, TOP_SCREEN)
+    Screen.debugPrint(5, 195, "Installed Updater: v."..sver, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5, 210, "Latest Updater   : v."..lver, colors.white, TOP_SCREEN)
     Screen.flip()
 end
 
@@ -317,15 +322,15 @@ while true do
 			elseif Controls.check(pad,KEY_A) and not Controls.check(oldpad,KEY_A) then
 				if (curPos == 20) then
 					if (not isDev) then
-						update(stableUrl)
+						update(url.stable)
 					else
-						update(stableDevUrl)
+						update(url.stableDev)
 					end
 				elseif (curPos == 35) then
 					if (not isDev) then
-						update(hourlyUrl)
+						update(url.hourly)
 					else
-						update(hourlyDevUrl)
+						update(url.hourlyDev)
 					end
 				elseif (curPos == 50) then
 					restoreBackup()
@@ -341,16 +346,16 @@ while true do
 				elseif (curPos == 110) then
 					if iscia == 1 then
 						Screen.clear(TOP_SCREEN)
-					Screen.debugPrint(5, 5, "Downloading new CIA...", yellow, TOP_SCREEN)
+					Screen.debugPrint(5, 5, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
 					Network.downloadFile(latestCIA, "/Updater.CIA")
 						sleep(2000)
-						Screen.debugPrint(5, 20, "Installing CIA...", yellow, TOP_SCREEN)
+						Screen.debugPrint(5, 20, "Installing CIA...", colors.yellow, TOP_SCREEN)
 						System.installCIA("/Updater.CIA", SDMC)
 						System.deleteFile("/Updater.CIA")
 						System.exit()
 					else
 						Screen.clear(TOP_SCREEN)
-						Screen.debugPrint(5, 5, "Downloading new 3DSX...", yellow, TOP_SCREEN)
+						Screen.debugPrint(5, 5, "Downloading new 3DSX...", colors.yellow, TOP_SCREEN)
 						if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
 							System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
 						end
@@ -368,18 +373,18 @@ while true do
 	else
 		if iscia == 1 then
 			Screen.clear(TOP_SCREEN)
-			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", yellow, TOP_SCREEN)
-			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", colors.yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 20, "Downloading update...", colors.yellow, TOP_SCREEN)
 			Network.downloadFile(latestCIA, "/Updater.CIA")
 			sleep(2000)
-			Screen.debugPrint(5, 35, "Installing update...", yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 35, "Installing update...", colors.yellow, TOP_SCREEN)
 			Screen.installCIA("/Updater.CIA", SDMC)
 			System.deleteFile("/Updater.CIA")
 			System.exit()
 		else
 			Screen.clear(TOP_SCREEN)
-			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", yellow, TOP_SCREEN)
-			Screen.debugPrint(5, 20, "Downloading update...", yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", colors.yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 20, "Downloading update...", colors.yellow, TOP_SCREEN)
 			if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
 				System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
 			end
