@@ -12,3 +12,7 @@ and SCRIPT the version of StarUpdater.
 
 Removing the StarUpdater self-updater from the menu will also be required.
 Auto-updating will be handled at the start of the script, as well.
+
+--
+
+The auto-updater (original code) and the updater option have been removed from StarUpdater.
