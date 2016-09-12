@@ -298,7 +298,7 @@ function main()
     Screen.debugPrint(30,50, "Restore a Luma3DS backup", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,65, "Luma Version: "..getMode(devmode), colors.white, TOP_SCREEN)
     Screen.debugPrint(30,80, "Install mode: "..getMode(menuhaxmode), colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,95, "Go back to HBL/Home menu", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,95, "Go back to HBL/Home Menu", colors.white, TOP_SCREEN)
     Screen.debugPrint(5,120, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
     Screen.debugPrint(5,135, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
     if (not isMenuhax) then
