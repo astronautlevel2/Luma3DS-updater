@@ -2,15 +2,55 @@
 
 -- Basic StarUpdater Version Info
 sver = "1.5.0"
-lver = "???" -- Fetched from server
 relver = 1
 
 
 -- Handle auto-updates
-if relver > clientrel then
-	-- Do auto-update (WIP)
+
+-- Sleep function
+function sleep(n)
+  local timer = Timer.new()
+  local t0 = Timer.getTime(timer)
+  while Timer.getTime(timer) - t0 <= n do end
 end
 
+--CIA/3DSX Check
+local iscia = 0
+if System.checkBuild() == 2 then
+	iscia = 0
+else
+	iscia = 1
+end
+-- Actual auto-updater
+local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
+local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
+if relver > clientrel then
+	-- Do auto-update (WIP)
+	while true do
+		if iscia == 1 then -- CIA Update
+			Screen.clear(TOP_SCREEN)
+			Screen.debugPrint(5, 5, "Updating bootstrapper...", colors.yellow, TOP_SCREEN)
+			Screen.debugPrint(5, 20, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
+			Network.downloadFile(latestCIA, "/StarUpdater/Updater.cia")
+			sleep(2000)
+			Screen.debugPrint(5, 35, "Installing CIA...", colors.yellow, TOP_SCREEN)
+			System.deleteFile("/Updater.CIA")
+			System.exit()
+		else -- 3DSX Update
+			Screen.clear(TOP_SCREEN)
+			Screen.debugPrint(5, 5, "Updating bootstrapper...", colors.yellow, TOP_SCREEN)
+			if System.doesFileExist("/StarUpdater/updater.3dsx") then
+				System.deleteFile("/StarUpdater/updater.3dsx")
+			end
+			Network.downloadFile(latestHB, "/StarUpdater/updater.3dsx")
+			sleep(2000)
+			if System.doesFileExist("/3ds/StarUpdater/StarUpdater.3dsx") then
+				System.deleteFile("/3ds/StarUpdater/StarUpdater.3dsx")
+				System.renameFile("/StarUpdater/updater.3dsx", "/3ds/StarUpdater/StarUpdater.3dsx")
+			end
+			System.exit()
+		end
+end
 -- Colours
 local colors =
 {
@@ -38,11 +78,6 @@ local payload_path = "/arm9loaderhax.bin"
 local zip_path = "/Luma3DS.zip"
 local backup_path = payload_path..".bak"
 
--- StarUpdater URLs
-local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
-local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
-local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
-
 
 local curPos = 20
 local isMenuhax = false
@@ -53,20 +88,6 @@ local remoteVerNum = ""
 
 local pad = Controls.read()
 local oldpad = pad
-
---CIA/3DSX
-local iscia = 0
-if System.checkBuild() == 2 then
-	iscia = 0
-else
-	iscia = 1
-end
-
-
-if Network.isWifiEnabled() then
-	lver = Network.requestString(verserver)
-	svrelver = tonumber(Network.requestString(relverserver))
-end
 
 function readConfig(fileName)
     if (isMenuhax) then
@@ -122,12 +143,6 @@ function restoreBackup()
             end
         end
     end
-end
-
-function sleep(n)
-  local timer = Timer.new()
-  local t0 = Timer.getTime(timer)
-  while Timer.getTime(timer) - t0 <= n do end
 end
 
 function getMode(mode)
@@ -284,14 +299,12 @@ function main()
     Screen.debugPrint(30,65, "Luma Version: "..getMode(devmode), colors.white, TOP_SCREEN)
     Screen.debugPrint(30,80, "Install mode: "..getMode(menuhaxmode), colors.white, TOP_SCREEN)
     Screen.debugPrint(30,95, "Go back to HBL/Home menu", colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,110, "Update the updater", colors.white, TOP_SCREEN)
-    Screen.debugPrint(5,145, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
-    Screen.debugPrint(5,160, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,120, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,135, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
     if (not isMenuhax) then
-        Screen.debugPrint(5, 175, "Install directory: "..payload_path, colors.white, TOP_SCREEN)
+        Screen.debugPrint(5, 150, "Install directory: "..payload_path, colors.white, TOP_SCREEN)
     end
-    Screen.debugPrint(5, 195, "Installed Updater: v."..sver, colors.white, TOP_SCREEN)
-    Screen.debugPrint(5, 210, "Latest Updater   : v."..lver, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5, 165, "StarUpdater Version: v."..bootstrapver.."/"..sver, colors.white, TOP_SCREEN)
     Screen.flip()
 end
 
@@ -339,7 +352,7 @@ while true do
 					main()
 				elseif (curPos == 95) then
 					System.exit()
-				elseif (curPos == 110) then
+				elseif (1 == 0) then -- Self Updater to be removed completely
 					if iscia == 1 then
 						Screen.clear(TOP_SCREEN)
 					Screen.debugPrint(5, 5, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
@@ -366,32 +379,6 @@ while true do
 				end
 			end
 			oldpad = pad
-	else
-		if iscia == 1 then
-			Screen.clear(TOP_SCREEN)
-			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", colors.yellow, TOP_SCREEN)
-			Screen.debugPrint(5, 20, "Downloading update...", colors.yellow, TOP_SCREEN)
-			Network.downloadFile(latestCIA, "/Updater.CIA")
-			sleep(2000)
-			Screen.debugPrint(5, 35, "Installing update...", colors.yellow, TOP_SCREEN)
-			Screen.installCIA("/Updater.CIA", SDMC)
-			System.deleteFile("/Updater.CIA")
-			System.exit()
-		else
-			Screen.clear(TOP_SCREEN)
-			Screen.debugPrint(5, 5, "StarUpdater Self Auto-Updater", colors.yellow, TOP_SCREEN)
-			Screen.debugPrint(5, 20, "Downloading update...", colors.yellow, TOP_SCREEN)
-			if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
-				System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
-			end
-			Network.downloadFile(latestHB, "/3ds/StarUpdater/StarUpdater-up.3dsx")
-			if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
-				System.deleteFile("/3ds/StarUpdater/StarUpdater.3dsx")
-				System.renameFile("/3ds/StarUpdater/StarUpdater-up.3dsx", "/3ds/StarUpdater/StarUpdater-up.3dsx")
-			end
-			System.exit()
-		end	
-
 	end
 end
 
