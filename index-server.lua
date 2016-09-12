@@ -31,6 +31,9 @@ if relver > clientrel then
 			Screen.clear(TOP_SCREEN)
 			Screen.debugPrint(5, 5, "Updating bootstrapper...", colors.yellow, TOP_SCREEN)
 			Screen.debugPrint(5, 20, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
+			if System.doesFileExist("/StarUpdater/Updater.cia") then
+				System.deleteFile("/StarUpdater/Updater.cia")
+			end
 			Network.downloadFile(latestCIA, "/StarUpdater/Updater.cia")
 			sleep(2000)
 			Screen.debugPrint(5, 35, "Installing CIA...", colors.yellow, TOP_SCREEN)
