@@ -352,29 +352,6 @@ while true do
 					main()
 				elseif (curPos == 95) then
 					System.exit()
-				elseif (1 == 0) then -- Self Updater to be removed completely
-					if iscia == 1 then
-						Screen.clear(TOP_SCREEN)
-					Screen.debugPrint(5, 5, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
-					Network.downloadFile(latestCIA, "/Updater.CIA")
-						sleep(2000)
-						Screen.debugPrint(5, 20, "Installing CIA...", colors.yellow, TOP_SCREEN)
-						System.installCIA("/Updater.CIA", SDMC)
-						System.deleteFile("/Updater.CIA")
-						System.exit()
-					else
-						Screen.clear(TOP_SCREEN)
-						Screen.debugPrint(5, 5, "Downloading new 3DSX...", colors.yellow, TOP_SCREEN)
-						if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
-							System.deleteFile("/3ds/StarUpdater/StarUpdater-up.3dsx")
-						end
-						Network.downloadFile(latestHB, "/3ds/StarUpdater/StarUpdater-up.3dsx")
-						if System.doesFileExist("/3ds/StarUpdater/StarUpdater-up.3dsx") then
-							System.deleteFile("/3ds/StarUpdater/StarUpdater.3dsx")
-							System.renameFile("/3ds/StarUpdater/StarUpdater-up.3dsx", "/3ds/StarUpdater/StarUpdater-up.3dsx")
-						end
-						System.exit()
-					end	
 	
 				end
 			end
