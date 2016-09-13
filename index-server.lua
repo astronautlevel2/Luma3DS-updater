@@ -21,6 +21,16 @@ if System.checkBuild() == 2 then
 else
 	iscia = 1
 end
+
+-- Colours
+local colors =
+{
+	white = Color.new(255,255,255),
+	yellow = Color.new(255,205,66),
+	red = Color.new(255,0,0),
+	green = Color.new(55,255,0)
+}
+
 -- Actual auto-updater
 local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
 local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
@@ -54,14 +64,6 @@ if relver > clientrel then
 			System.exit()
 		end
 end
--- Colours
-local colors =
-{
-	white = Color.new(255,255,255),
-	yellow = Color.new(255,205,66),
-	red = Color.new(255,0,0),
-	green = Color.new(55,255,0)
-}
 
 -- Luma3DS URLs
 
