@@ -63,6 +63,7 @@ if relver > clientrel then
 			end
 			System.exit()
 		end
+	end	
 end
 
 -- Luma3DS URLs
