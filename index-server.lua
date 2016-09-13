@@ -47,7 +47,7 @@ if relver > clientrel then
 			Network.downloadFile(latestCIA, "/StarUpdater/Updater.cia")
 			sleep(2000)
 			Screen.debugPrint(5, 35, "Installing CIA...", colors.yellow, TOP_SCREEN)
-			System.deleteFile("/Updater.CIA")
+			System.deleteFile("/StarUpdater/Updater.CIA")
 			System.exit()
 		else -- 3DSX Update
 			Screen.clear(TOP_SCREEN)
