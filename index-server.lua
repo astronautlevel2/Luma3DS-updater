@@ -1,7 +1,7 @@
 -- StarUpdater
 
 -- Basic StarUpdater Version Info
-sver = "1.5.0"
+sver = "1.5.1"
 relver = 1
 
 
@@ -37,8 +37,8 @@ local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- A
 if relver > clientrel then
 	-- Do auto-update (WIP)
 	while true do
+		Screen.clear(TOP_SCREEN)
 		if iscia == 1 then -- CIA Update
-			Screen.clear(TOP_SCREEN)
 			Screen.debugPrint(5, 5, "Updating bootstrapper...", colors.yellow, TOP_SCREEN)
 			Screen.debugPrint(5, 20, "Downloading new CIA...", colors.yellow, TOP_SCREEN)
 			if System.doesFileExist("/StarUpdater/Updater.cia") then
@@ -50,7 +50,7 @@ if relver > clientrel then
 			System.deleteFile("/StarUpdater/Updater.CIA")
 			System.exit()
 		else -- 3DSX Update
-			Screen.clear(TOP_SCREEN)
+
 			Screen.debugPrint(5, 5, "Updating bootstrapper...", colors.yellow, TOP_SCREEN)
 			if System.doesFileExist("/StarUpdater/updater.3dsx") then
 				System.deleteFile("/StarUpdater/updater.3dsx")
@@ -302,11 +302,10 @@ function main()
     Screen.debugPrint(30,20, "Update to latest Luma3DS", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,35, "Update to Luma3DS hourly", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,50, "Restore a Luma3DS backup", colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,65, "Luma Version: "..getMode(devmode), colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,80, "Install mode: "..getMode(menuhaxmode), colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,95, "Go back to HBL/Home Menu", colors.white, TOP_SCREEN)
-    Screen.debugPrint(5,120, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
-    Screen.debugPrint(5,135, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,65, "Install mode: "..getMode(menuhaxmode), colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,80, "Go back to HBL/Home Menu", colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,105, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
+    Screen.debugPrint(5,120, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
     if (not isMenuhax) then
         Screen.debugPrint(5, 150, "Install directory: "..payload_path, colors.white, TOP_SCREEN)
     end
@@ -350,13 +349,10 @@ while true do
 				elseif (curPos == 50) then
 					restoreBackup()
 				elseif (curPos == 65) then
-					isDev = not isDev
-					main()
-				elseif (curPos == 80) then
 					isMenuhax = not isMenuhax
 					init()
 					main()
-				elseif (curPos == 95) then
+				elseif (curPos == 80) then
 					System.exit()
 	
 				end
