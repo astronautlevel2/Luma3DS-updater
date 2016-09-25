@@ -296,7 +296,7 @@ while true do
 			end	
 				
 			if Controls.check(pad,KEY_DDOWN) and not Controls.check(oldpad,KEY_DDOWN) then
-				if (curPos < 110) then
+				if (curPos < 95) then
 					curPos = curPos + 15
 					main()
 				end
