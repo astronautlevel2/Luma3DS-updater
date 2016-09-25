@@ -222,10 +222,28 @@ function update(site)
             Screen.debugPrint(5,65, "Changing path for reboot patch", colors.yellow, TOP_SCREEN)
             path_changer()
         elseif (isMenuhax == true) then
-            Screen.debugPrint(5,50, "Moving to payload location...", colors.yellow, TOP_SCREEN)
-            System.extractFromZIP(zip_path, "out/Luma3DS.dat", "/Luma3DS.dat")
+            System.createDirectory("/3ds")
+			System.createDirectory("/3ds/Luma3DS")
+			Screen.debugPrint(5,50, "Extracting 3DSX/SMDH...", colors.yellow, TOP_SCREEN)
+			if System.doesFileExist("/3ds/Luma3DS/luma-up.3dsx") then
+				System.deleteFile("/3ds/Luma3DS/luma-up.3dsx")
+			end
+			if System.doesFileExist("/3ds/Luma3DS/luma-up.smdh") then
+				System.deleteFile("/3ds/Luma3DS/luma-up.smdh")
+			end
+            System.extractFromZIP(zip_path, "out/menuhax/3ds/Luma3DS/Luma3DS.3dsx", "/3ds/Luma3DS/luma-up.3dsx")
+			if System.doesFileExist("/3ds/Luma3DS/Luma3DS.3dsx") then
+				System.deleteFile("/3ds/Luma3DS/Luma3DS.3dsx")
+			end
+			System.renameFile("/3ds/Luma3DS/luma-up.3dsx", "/3ds/Luma3DS/Luma3DS.3dsx")
+            System.extractFromZIP(zip_path, "out/menuhax/3ds/Luma3DS/Luma3DS.smdh", "/3ds/Luma3DS/luma-up.smdh")			
+			if System.doesFileExist("/3ds/Luma3DS/Luma3DS.smdh") then
+				System.deleteFile("/3ds/Luma3DS/Luma3DS.smdh")
+			end
+			System.renameFile("/3ds/Luma3DS/luma-up.smdh", "/3ds/Luma3DS/Luma3DS.smdh")
+			Screen.debugPrint(5, 65, "Extracting payload...", colors.yellow, TOP_SCREEN)
             if System.doesFileExist("/arm9loaderhax.bin") then
-		System.deleteFile("/arm9loaderhax.bin")		
+				System.deleteFile("/arm9loaderhax.bin")	
             end
             System.extractFromZIP(zip_path, "out/arm9loaderhax.bin", "/arm9loaderhax.bin")			
             System.deleteFile(zip_path)
@@ -273,12 +291,12 @@ function main()
     Screen.debugPrint(30,35, "Update to Luma3DS hourly", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,50, "Restore a Luma3DS backup", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,65, "Install mode: "..getMode(), colors.white, TOP_SCREEN)
-    Screen.debugPrint(30,80, "Go back to HBL/Home menu", colors.white, TOP_SCREEN)
+    Screen.debugPrint(30,80, "Go back to HBL/Home Menu", colors.white, TOP_SCREEN)
     Screen.debugPrint(30,95, "Update the updater", colors.white, TOP_SCREEN)
     Screen.debugPrint(5,130, "Your Luma3DS version  : "..localVer, colors.white, TOP_SCREEN)
     Screen.debugPrint(5,145, "Latest Luma3DS version: "..remoteVerNum, colors.white, TOP_SCREEN)
     if (not isMenuhax) then
-        Screen.debugPrint(5, 160, "Install directory: "..payload_path, colors.white, TOP_SCREEN)
+        Screen.debugPrint(5, 160, "Install path: "..payload_path, colors.white, TOP_SCREEN)
     end
     Screen.debugPrint(5, 195, "Installed Updater: v."..sver, colors.white, TOP_SCREEN)
     Screen.debugPrint(5, 210, "Latest Updater   : v."..lver, colors.white, TOP_SCREEN)
