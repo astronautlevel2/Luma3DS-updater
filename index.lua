@@ -25,13 +25,13 @@ local zip_path = "/Luma3DS.zip"
 local backup_path = payload_path..".bak"
 
 -- StarUpdater URLs
-local latestCIA = "http://gs2012.xyz/3ds/starupdater/StarUpdater.cia" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
+local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
 local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
-local verserver = "http://gs2012.xyz/3ds/starupdater/version" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
+local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
 local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
 
 -- Version Info
-local sver = "1.5.1-UN"
+local sver = "1.5.1"
 local lver = "???" --This is fetched from the server
 local relver = 1 -- This is a number that is checked against the server version for mandatory updates. if svrelver > relver, StarUpdater will auto-update.
 local svrelver = 0 -- Fetched from server
