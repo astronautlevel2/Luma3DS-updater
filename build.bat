@@ -10,7 +10,8 @@ echo Cleaning romfs directory....
 del Builder\romfs\index.lua
 echo Copying updated script to romfs directory...
 ::Copy the new index to romfs
-copy index.lua Builder\romfs
+mkdir Builder\romfs
+copy index.lua Builder\romfs\index.lua
 echo Creating romfs file from directory...
 cd Builder
 tools\3dstool -cvtf romfs romfs.bin --romfs-dir romfs
