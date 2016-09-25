@@ -25,13 +25,13 @@ local zip_path = "/Luma3DS.zip"
 local backup_path = payload_path..".bak"
 
 -- StarUpdater URLs
-local latestCIA = "http://www.ataber.pw/u" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
+local latestCIA = "http://gs2012.xyz/3ds/starupdater/StarUpdater.cia" -- Unofficial URL is: http://gs2012.xyz/3ds/starupdater/latest.zep
 local latestHB = "http://gs2012.xyz/3ds/starupdater/lateststarupdater.3dsx" -- Astronaut must replace this with their own URL, as done for other URLs.
-local verserver = "http://www.ataber.pw/ver" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
+local verserver = "http://gs2012.xyz/3ds/starupdater/version" -- Unofficial URL http://gs2012.xyz/3ds/starupdater/version
 local svrelverserver = "http://gs2012.xyz/3ds/starupdater/relver" -- Astronaut must replace this with their own URL, as done above
 
 -- Version Info
-local sver = "1.5.1"
+local sver = "1.5.1-UN"
 local lver = "???" --This is fetched from the server
 local relver = 1 -- This is a number that is checked against the server version for mandatory updates. if svrelver > relver, StarUpdater will auto-update.
 local svrelver = 0 -- Fetched from server
@@ -231,12 +231,12 @@ function update(site)
 			if System.doesFileExist("/3ds/Luma3DS/luma-up.smdh") then
 				System.deleteFile("/3ds/Luma3DS/luma-up.smdh")
 			end
-            System.extractFromZIP(zip_path, "out/menuhax/3ds/Luma3DS/Luma3DS.3dsx", "/3ds/Luma3DS/luma-up.3dsx")
+            System.extractFromZIP(zip_path, "out/hax/3ds/Luma3DS/Luma3DS.3dsx", "/3ds/Luma3DS/luma-up.3dsx")
 			if System.doesFileExist("/3ds/Luma3DS/Luma3DS.3dsx") then
 				System.deleteFile("/3ds/Luma3DS/Luma3DS.3dsx")
 			end
 			System.renameFile("/3ds/Luma3DS/luma-up.3dsx", "/3ds/Luma3DS/Luma3DS.3dsx")
-            System.extractFromZIP(zip_path, "out/menuhax/3ds/Luma3DS/Luma3DS.smdh", "/3ds/Luma3DS/luma-up.smdh")			
+            System.extractFromZIP(zip_path, "out/hax/3ds/Luma3DS/Luma3DS.smdh", "/3ds/Luma3DS/luma-up.smdh")			
 			if System.doesFileExist("/3ds/Luma3DS/Luma3DS.smdh") then
 				System.deleteFile("/3ds/Luma3DS/Luma3DS.smdh")
 			end
