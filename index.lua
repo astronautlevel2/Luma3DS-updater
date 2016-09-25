@@ -56,7 +56,7 @@ end
 
 if Network.isWifiEnabled() then
 	lver = Network.requestString(verserver)
-	svrelver = tonumber(Network.requestString(relverserver))
+	svrelver = tonumber(Network.requestString(svrelverserver))
 end
 
 --Auto-update check
