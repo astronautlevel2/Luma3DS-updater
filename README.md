@@ -3,7 +3,7 @@
 </p>
 
 
-# StarUpdater for Luma3DS
+# StarUpdater-UN for Luma3DS
 
 This is a simple updater for Luma3DS. It uses LPP-3DS in order to work, and it is available as both a 3DSX and a CIA.
 
@@ -22,6 +22,9 @@ This currently supports custom paths and path changing patch, and both hourlies 
 Before updating, it shows you your current Luma version and the latest available Luma version.
 
 Recent features allow Menuhax support as well. This will always extract it to /Luma3DS.dat on the root of your SD card due to path changer limitations. If you want backup support with Menuhax, set your update.cfg file to this location.
+
+## Building
+You'll need GNU Make. The required utilities are already included. Simply do "make" inside the repository. If you use Linux, you'll also need Wine, as to run 3dsxtool.exe, which seems not to properly load the romfs.bin file in Linux.
 
 ## Credits
  * Thanks to Rinnegatamante for lpp-3ds, which this depends upon.
